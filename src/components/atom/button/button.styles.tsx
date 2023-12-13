@@ -4,34 +4,28 @@ import colors from '@/theme/colors';
 const styles = StyleSheet.create({
   flat: {
     paddingVertical: 9,
-  },
-  fab: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    height: 56,
+    display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   raised: {
-    borderRadius: 7,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     alignContent: 'center',
     paddingVertical: 7,
-  },
-  back: {
-    paddingVertical: 5,
-    paddingHorizontal: 0,
+    height: 56,
   },
   iconButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
     display: 'flex',
-  },
-  iconBtnContainer: {
-    flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   iconBtnText: {
     marginTop: 8,

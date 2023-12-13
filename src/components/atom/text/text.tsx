@@ -30,9 +30,14 @@ const BaseText = ({
   );
 };
 
+const HeadingLine = (props: BaseTextProps & HeadingProps) => {
+  const {family} = props;
+  return <BaseText fontSize={50} fontFamily={fonts[family]} {...props} />;
+};
+
 const HeadingOne = (props: BaseTextProps & HeadingProps) => {
   const {family} = props;
-  return <BaseText fontSize={30} fontFamily={family} {...props} />;
+  return <BaseText fontSize={30} fontFamily={fonts[family]} {...props} />;
 };
 
 const HeadingTwo = (props: BaseTextProps & HeadingProps) => {
@@ -73,4 +78,5 @@ export {
   BodyOne,
   BodyTwo,
   Label,
+  HeadingLine,
 };

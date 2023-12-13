@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
-import {Pressable, Image, View} from 'react-native';
+import {TouchableOpacity, Image, View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useNavigation} from '@react-navigation/native';
 
 import HeartIcon from '../heart-icon/heart-icon';
 import {BodyTwo, Label} from '../text/text';
-import {IconButton} from '../button/button';
 
 import styles from './products.styles';
 import {ProductProps} from './products.props';
@@ -16,19 +16,27 @@ const ProductItems: FC<ProductProps> = ({
   id,
   title,
 }: ProductProps) => {
+  const {navigate} = useNavigation();
+
+  const handleProductDetailsNav = () => {
+    navigate('ProducDetails', {product_id: id});
+  };
+
   const addToCartButton = () => (
-    <Pressable style={styles.addCartIcon}>
+    <TouchableOpacity style={styles.addCartIcon}>
       <Icon name="plus" color={colors.black_1} size={12} />
-    </Pressable>
+    </TouchableOpacity>
   );
   return (
-    <View style={[styles.gridItem]}>
-      <Pressable style={styles.button} android_ripple={{color: '#ccc'}}>
+    <TouchableOpacity
+      style={[styles.gridItem]}
+      onPress={handleProductDetailsNav}>
+      <View style={styles.button}>
         <View style={styles.heartIcon}>
           <HeartIcon />
         </View>
         <Image source={{uri: thumbnail}} style={styles.thumbnail} />
-      </Pressable>
+      </View>
       <View style={styles.addCartContainer}>
         <View style={styles.priceContainer}>
           <BodyTwo family="semi_bold">${price}</BodyTwo>
@@ -36,7 +44,7 @@ const ProductItems: FC<ProductProps> = ({
         </View>
         <Label>{title}</Label>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

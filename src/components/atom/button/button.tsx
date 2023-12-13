@@ -53,7 +53,7 @@ const Button = ({
         onPress={onPress}
         background={background}
         delayPressIn={0}>
-        <View style={[styles[type], {backgroundColor}, style]}>{content}</View>
+        <View style={[{backgroundColor}, styles[type], style]}>{content}</View>
       </TouchableNativeFeedback>
     );
   }
@@ -62,7 +62,7 @@ const Button = ({
       style={[{backgroundColor}, styles[type], style]}
       onPress={onPress}
       activeOpacity={0.7}>
-      <View style={[styles[type]]}>{content}</View>
+      <View>{content}</View>
     </TouchableOpacity>
   );
 };
@@ -71,19 +71,12 @@ const Raised = props => <Button {...props} type="raised" />;
 
 const Flat = props => <Button {...props} type="flat" />;
 
-const IconButton = ({
-  onPress,
-  style,
-  size,
-  icon,
-  color,
-  containerStyle,
-}: IconButtonProps) => (
-  <View style={[styles.iconBtnContainer, containerStyle]}>
-    <Button style={[styles.iconButton, style]} onPress={onPress} type="flat">
-      {icon}
-    </Button>
-  </View>
+const IconButton = ({onPress, icon, containerStyle}: IconButtonProps) => (
+  <TouchableOpacity
+    style={[styles.iconButton, containerStyle]}
+    onPress={onPress}>
+    {icon}
+  </TouchableOpacity>
 );
 
 export {Raised, Flat, IconButton};

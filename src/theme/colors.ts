@@ -12,4 +12,6 @@ export default {
   black_90: '#354349',
   black_100: '#1B262E',
   gray: '#8891A5',
+  pearl_bush: '#E4DDCB',
+  heart_filled: '#FF8181',
 };

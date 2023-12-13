@@ -16,7 +16,7 @@ const BaseText = ({
   fontSize,
   fontFamily,
   style,
-  color = colors.secondary,
+  color = colors.black_100,
   ...textProps
 }: BaseTextProps) => {
   const computedStyle = {

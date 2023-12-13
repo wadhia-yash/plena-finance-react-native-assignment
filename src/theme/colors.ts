@@ -11,4 +11,5 @@ export default {
   black_60: '#606D76',
   black_90: '#354349',
   black_100: '#1B262E',
+  gray: '#8891A5',
 };

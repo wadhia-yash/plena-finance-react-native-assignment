@@ -26,6 +26,7 @@ const ProductGridList = () => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{paddingBottom: 100}}
       renderItem={({index, item}) => <ProductItems {...item} />}
+      initialNumToRender={10}
     />
   );
 };

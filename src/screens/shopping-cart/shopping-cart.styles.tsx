@@ -9,9 +9,30 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 0.7,
   },
+  checkoutContainer: {
+    flex: 0.3,
+    paddingHorizontal: 8,
+  },
+  checkoutInnerContainer: {
+    backgroundColor: colors.black_10,
+    flex: 1,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+    paddingHorizontal: 40,
+    paddingTop: 16,
+    position: 'relative',
+  },
   row: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  amountContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 4,
+  },
+  checkoutButton: {
+    marginTop: 20,
   },
   productItem: {
     padding: 16,

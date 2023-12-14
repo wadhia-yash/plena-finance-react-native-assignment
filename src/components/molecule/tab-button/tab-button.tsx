@@ -17,6 +17,7 @@ import CategoryOutline from '@/assets/images/category_outline.svg';
 import HeartOutline from '@/assets/images/heart_outline.svg';
 import {Label} from '@/components/atom/text/text';
 import colors from '@/theme/colors';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 const animate1 = {
   0: {scale: 0.5, translateY: 7},
@@ -64,6 +65,14 @@ const TabButton: FC<BottomTabBarButtonProps & TabButtonProps> = (
         return <CategoryFilled height={_size} width={_size} />;
       case 'Favourite':
         return <HeartFilled height={_size} width={_size} />;
+      case 'Menu':
+        return (
+          <Icon
+            name="options-vertical"
+            size={_size}
+            color={colors.secondary_dark}
+          />
+        );
     }
   };
 
@@ -75,6 +84,10 @@ const TabButton: FC<BottomTabBarButtonProps & TabButtonProps> = (
         return <CategoryOutline height={_size} width={_size} />;
       case 'Favourite':
         return <HeartOutline height={_size} width={_size} />;
+      case 'Menu':
+        return (
+          <Icon name="options-vertical" size={_size} color={colors.black_100} />
+        );
     }
   };
 

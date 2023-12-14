@@ -4,6 +4,7 @@ import {Rating} from 'react-native-ratings';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import Animated from 'react-native-reanimated';
 
 import {
   BodyOne,
@@ -41,7 +42,13 @@ const ProductDetailsScreen = () => {
   const favItems = useSelector(selectFavItems, shallowEqual);
 
   const renderImageCarousel = ({item, index}) => {
-    return <Image source={{uri: item}} style={styles.image} />;
+    return (
+      <Animated.Image
+        source={{uri: item}}
+        style={styles.image}
+        sharedTransitionTag="product-image"
+      />
+    );
   };
 
   const renderPagination = () => {

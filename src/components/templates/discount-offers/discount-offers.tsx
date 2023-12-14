@@ -9,12 +9,12 @@
 import colors from '@/theme/colors';
 import React, {FC} from 'react';
 import {ScrollView, View, Dimensions, Platform} from 'react-native';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import Animated, {BounceInRight} from 'react-native-reanimated';
 
 import PlaceHolderImage from '@/assets/images/placeholder_image_white.svg';
+import {BodyTwo, HeadingThree, HeadingTwo} from '@/components/atom/text/text';
 
 import styles from './discount-offers.styles';
-import {BodyTwo, HeadingThree, HeadingTwo} from '@/components/atom/text/text';
 
 const CARD_WIDTH = Dimensions.get('window').width * 0.8;
 const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 10;
@@ -40,8 +40,9 @@ const DiscountOffers: FC = () => {
   const renderDiscountCards = (views: CardType[]): JSX.Element[] => {
     return views.map((card, index: number) => {
       return (
-        <View
+        <Animated.View
           style={[styles.cardStyle, {backgroundColor: bgColor[index]}]}
+          entering={BounceInRight}
           key={`${card.title}-${index}`}>
           <View style={styles.imageCardContainer}>
             <PlaceHolderImage width={70} height={70} />
@@ -57,7 +58,7 @@ const DiscountOffers: FC = () => {
               {card.description}
             </BodyTwo>
           </View>
-        </View>
+        </Animated.View>
       );
     });
   };

@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {View, FlatList, TouchableOpacity, Image} from 'react-native';
 import {useSelector, shallowEqual, useDispatch} from 'react-redux';
 import Icons from 'react-native-vector-icons/Entypo';
+import Animated, {SlideInRight, SlideOutLeft} from 'react-native-reanimated';
 
 import {IconButton, Raised} from '@/components/atom/button/button';
 import {BodyOne, BodyTwo} from '@/components/atom/text/text';
@@ -14,6 +15,7 @@ import {
 
 import styles from './shopping-cart.styles';
 import {addToCart, removeFromCart} from '@/store/cart/cart.slice';
+import {truncateString} from '@/utils/string.utils';
 
 const ShoppingCartScreen: FC = () => {
   const dispatch = useDispatch();
@@ -30,15 +32,18 @@ const ShoppingCartScreen: FC = () => {
     dispatch(removeFromCart({cart: cartItems, product}));
   };
 
-  const renderProduct = ({item}) => (
-    <View style={styles.productItem}>
+  const renderProduct = ({item, index}) => (
+    <Animated.View
+      style={styles.productItem}
+      entering={SlideInRight.delay(100 + index * 11)}
+      exiting={SlideOutLeft}>
       <View style={styles.row}>
         <Image
           source={{uri: item?.thumbnail}}
           style={styles.productThumbnail}
         />
         <View>
-          <BodyOne>{item.title}</BodyOne>
+          <BodyOne>{truncateString(item.title, 20)}</BodyOne>
           <BodyOne>${item.price}</BodyOne>
         </View>
       </View>
@@ -60,7 +65,7 @@ const ShoppingCartScreen: FC = () => {
           onPress={() => handleAddToCart(item)}
         />
       </View>
-    </View>
+    </Animated.View>
   );
 
   const renderSeparator = () => <View style={styles.separator} />;

@@ -21,6 +21,8 @@ import styles from './products-detail.styles';
 import {RootState} from '@/store/store';
 import {addToCart} from '@/store/cart/cart.slice';
 import {selectCartItems} from '@/store/cart/cart.selector';
+import {addTofav, removeFromfav} from '@/store/favourite/favourite.slice';
+import {selectFavItems} from '@/store/favourite/favourite.selector';
 
 const ProductDetailsScreen = () => {
   const dispatch = useDispatch();
@@ -36,6 +38,7 @@ const ProductDetailsScreen = () => {
   );
 
   const cartItems = useSelector(selectCartItems, shallowEqual);
+  const favItems = useSelector(selectFavItems, shallowEqual);
 
   const renderImageCarousel = ({item, index}) => {
     return <Image source={{uri: item}} style={styles.image} />;
@@ -57,14 +60,35 @@ const ProductDetailsScreen = () => {
     dispatch(addToCart({cart: cartItems, product}));
   };
 
+  const handleAddToFav = product => {
+    dispatch(addTofav({fav: favItems, product}));
+  };
+
+  const handleRemoveFromFav = product => {
+    dispatch(removeFromfav({fav: favItems, product}));
+  };
+
+  const handleHeartPress = (isLiked: booleam, product: any) => {
+    if (isLiked) {
+      handleAddToFav(product);
+    } else {
+      handleRemoveFromFav(product);
+    }
+  };
+
   const handleBuyNow = product => {
     dispatch(addToCart({cart: cartItems, product}));
     navigate('ShoppingCart');
   };
 
+  const getLiked = (product): boolean => {
+    return favItems.find(favItem => favItem.id === product.id)
+      ?.favourite as boolean;
+  };
+
   useEffect(() => {
     dispatch(fetchProductDetails(product_id) as any);
-  }, [product_id]);
+  }, [product_id, dispatch]);
 
   return (
     <ScrollView
@@ -100,7 +124,12 @@ const ProductDetailsScreen = () => {
         />
         {renderPagination()}
         <View style={styles.favIcon}>
-          <HeartIcon />
+          <HeartIcon
+            isLiked={getLiked(productDetails)}
+            handleHeartPress={(isLiked: boolean) =>
+              handleHeartPress(isLiked, productDetails)
+            }
+          />
         </View>
       </View>
       <View style={styles.descriptionContainer}>

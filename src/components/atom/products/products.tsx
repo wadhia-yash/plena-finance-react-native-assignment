@@ -12,6 +12,8 @@ import colors from '@/theme/colors';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {addToCart} from '@/store/cart/cart.slice';
 import {selectCartItems} from '@/store/cart/cart.selector';
+import {addTofav, removeFromfav} from '@/store/favourite/favourite.slice';
+import {selectFavItems} from '@/store/favourite/favourite.selector';
 
 const ProductItems: FC<ProductProps> = (props: ProductProps) => {
   const {navigate} = useNavigation();
@@ -19,6 +21,7 @@ const ProductItems: FC<ProductProps> = (props: ProductProps) => {
   const dispatch = useDispatch();
 
   const cartItems = useSelector(selectCartItems, shallowEqual);
+  const favouriteItems = useSelector(selectFavItems, shallowEqual);
 
   const {id, thumbnail, price, title} = props;
 
@@ -28,6 +31,20 @@ const ProductItems: FC<ProductProps> = (props: ProductProps) => {
 
   const handleAddToCart = (product: ProductProps) => {
     dispatch(addToCart({cart: cartItems, product}));
+  };
+
+  const getLiked = (product): boolean => {
+    return favouriteItems.find(favItem => favItem.id === product.id)
+      ?.favourite as boolean;
+  };
+
+  const handleHeartPress = (isActive: boolean, product: any) => {
+    console.log('heart', isActive, product);
+    if (isActive) {
+      dispatch(addTofav({fav: favouriteItems, product}));
+    } else {
+      dispatch(removeFromfav({fav: favouriteItems, product}));
+    }
   };
 
   const addToCartButton = (product: ProductProps) => (
@@ -43,7 +60,10 @@ const ProductItems: FC<ProductProps> = (props: ProductProps) => {
       onPress={handleProductDetailsNav}>
       <View style={styles.button}>
         <View style={styles.heartIcon}>
-          <HeartIcon />
+          <HeartIcon
+            isLiked={getLiked(props)}
+            handleHeartPress={filled => handleHeartPress(filled, props)}
+          />
         </View>
         <Image source={{uri: thumbnail}} style={styles.thumbnail} />
       </View>

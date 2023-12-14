@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Animated,
@@ -26,12 +26,15 @@ const Heart = ({filled, style, ...props}) => {
   );
 };
 
-const HeartIcon = () => {
+const HeartIcon = ({handleHeartPress, isLiked = false}) => {
   const [isHeartLiked, setIsHeartLiked] = useState<boolean>(false);
   const scale = useRef(new Animated.Value(0)).current;
 
   const triggerLike = () => {
-    setIsHeartLiked(prev => !prev);
+    setIsHeartLiked(prev => {
+      handleHeartPress(!prev);
+      return !prev;
+    });
     Animated.spring(scale, {
       toValue: 2,
       friction: 3,
@@ -40,6 +43,10 @@ const HeartIcon = () => {
       scale.setValue(0);
     });
   };
+
+  useEffect(() => {
+    setIsHeartLiked(isLiked);
+  }, [isLiked]);
 
   const springHeart = scale.interpolate({
     inputRange: [0, 1, 2],

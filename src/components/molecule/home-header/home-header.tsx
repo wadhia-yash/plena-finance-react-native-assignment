@@ -8,9 +8,13 @@ import {BodyOne, HeadingThree} from '@/components/atom/text/text';
 import colors from '@/theme/colors';
 
 import styles from './home-header.styles';
+import {shallowEqual, useSelector} from 'react-redux';
+import {selectCartCount} from '@/store/cart/cart.selector';
 
 const HomeHeader: FC<BottomTabHeaderProps> = () => {
   const {navigate} = useNavigation();
+
+  const cartCount = useSelector(selectCartCount, shallowEqual);
 
   const handleCartNavigation = () => {
     navigate('ShoppingCart');
@@ -28,7 +32,7 @@ const HomeHeader: FC<BottomTabHeaderProps> = () => {
         <Icon name="handbag" size={24} color={colors.black_1} />
         <View style={styles.badgeView}>
           <BodyOne family="medium" color={colors.white}>
-            3
+            {cartCount}
           </BodyOne>
         </View>
       </TouchableOpacity>

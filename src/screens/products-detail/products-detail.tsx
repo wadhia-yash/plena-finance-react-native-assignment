@@ -1,26 +1,41 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ScrollView, View, Image, useWindowDimensions} from 'react-native';
 import {Rating} from 'react-native-ratings';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
-import {BodyOne, BodyTwo, HeadingLine} from '@/components/atom/text/text';
+import {
+  BodyOne,
+  BodyTwo,
+  HeadingLine,
+  Label,
+} from '@/components/atom/text/text';
 import colors from '@/theme/colors';
 
-import styles from './products-detail.styles';
 import HeartIcon from '@/components/atom/heart-icon/heart-icon';
 import {Flat, Raised} from '@/components/atom/button/button';
+import {fetchProductDetails} from '@/store/products/products.api';
 
-const images: Array<string> = [
-  'https://i.dummyjson.com/data/products/1/1.jpg',
-  'https://i.dummyjson.com/data/products/1/2.jpg',
-  'https://i.dummyjson.com/data/products/1/3.jpg',
-  'https://i.dummyjson.com/data/products/1/4.jpg',
-  'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
-];
+import styles from './products-detail.styles';
+import {RootState} from '@/store/store';
+import {addToCart} from '@/store/cart/cart.slice';
+import {selectCartItems} from '@/store/cart/cart.selector';
 
 const ProductDetailsScreen = () => {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const dispatch = useDispatch();
+  const {navigate} = useNavigation();
   const {width} = useWindowDimensions();
+  const {product_id} = useRoute().params;
+
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const {productDetails} = useSelector(
+    (state: RootState) => state.product,
+    shallowEqual,
+  );
+
+  const cartItems = useSelector(selectCartItems, shallowEqual);
 
   const renderImageCarousel = ({item, index}) => {
     return <Image source={{uri: item}} style={styles.image} />;
@@ -29,7 +44,7 @@ const ProductDetailsScreen = () => {
   const renderPagination = () => {
     return (
       <Pagination
-        dotsLength={images.length}
+        dotsLength={productDetails?.images?.length}
         activeDotIndex={activeSlide}
         containerStyle={styles.dotsContainer}
         dotStyle={styles.dots}
@@ -38,11 +53,26 @@ const ProductDetailsScreen = () => {
     );
   };
 
+  const handleAddToCart = product => {
+    dispatch(addToCart({cart: cartItems, product}));
+  };
+
+  const handleBuyNow = product => {
+    dispatch(addToCart({cart: cartItems, product}));
+    navigate('ShoppingCart');
+  };
+
+  useEffect(() => {
+    dispatch(fetchProductDetails(product_id) as any);
+  }, [product_id]);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      style={styles.scrollContainer}
+      contentContainerStyle={styles.container}>
       <View style={styles.headerView}>
-        <HeadingLine family="regular">Thin Choise</HeadingLine>
-        <HeadingLine family="bold">Thin Choise</HeadingLine>
+        <HeadingLine family="regular">{productDetails?.brand}</HeadingLine>
+        <HeadingLine family="bold">{productDetails?.title}</HeadingLine>
         <View style={styles.row}>
           <Rating
             type="custom"
@@ -53,6 +83,7 @@ const ProductDetailsScreen = () => {
             style={styles.rating}
             tintColor={colors.black_1}
             readonly={true}
+            startingValue={productDetails?.rating}
           />
           <BodyTwo family="regular" color={colors.black_60}>
             110 reviews
@@ -61,7 +92,7 @@ const ProductDetailsScreen = () => {
       </View>
       <View style={styles.carouselContainer}>
         <Carousel
-          data={images}
+          data={productDetails?.images}
           renderItem={renderImageCarousel}
           onSnapToItem={index => setActiveSlide(index)}
           sliderWidth={width}
@@ -73,16 +104,27 @@ const ProductDetailsScreen = () => {
         </View>
       </View>
       <View style={styles.descriptionContainer}>
-        <BodyOne family="bold" color={colors.primary}>
-          $36
-        </BodyOne>
+        <View style={styles.priceContainer}>
+          <BodyOne family="bold" color={colors.primary}>
+            ${productDetails?.price}
+          </BodyOne>
+          <View style={styles.discountBadge}>
+            <Label family="primary" color={colors.black_1}>
+              {productDetails?.discountPercentage}% off
+            </Label>
+          </View>
+        </View>
         <View style={styles.buttonContainer}>
-          <Flat style={styles.buttonFlex}>
+          <Flat
+            style={styles.buttonFlex}
+            onPress={() => handleAddToCart(productDetails)}>
             <BodyTwo family="semi_bold" color={colors.primary}>
               Add to cart
             </BodyTwo>
           </Flat>
-          <Raised style={styles.buttonFlex}>
+          <Raised
+            style={styles.buttonFlex}
+            onPress={() => handleBuyNow(productDetails)}>
             <BodyTwo family="semi_bold" color={colors.black_1}>
               Buy Now
             </BodyTwo>
@@ -91,13 +133,7 @@ const ProductDetailsScreen = () => {
         <View>
           <BodyOne color={colors.black_100}>Details</BodyOne>
           <BodyOne color={colors.black_45}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            {productDetails.description}
           </BodyOne>
         </View>
       </View>

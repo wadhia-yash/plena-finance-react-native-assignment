@@ -1,8 +1,14 @@
 interface ProductProps {
-  thumbnail: string;
-  price: number;
-  title: string;
   id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: Array<string>;
 }
 
 export type {ProductProps};

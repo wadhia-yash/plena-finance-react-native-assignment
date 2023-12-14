@@ -9,21 +9,31 @@ import {BodyTwo, Label} from '../text/text';
 import styles from './products.styles';
 import {ProductProps} from './products.props';
 import colors from '@/theme/colors';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {addToCart} from '@/store/cart/cart.slice';
+import {selectCartItems} from '@/store/cart/cart.selector';
 
-const ProductItems: FC<ProductProps> = ({
-  thumbnail,
-  price,
-  id,
-  title,
-}: ProductProps) => {
+const ProductItems: FC<ProductProps> = (props: ProductProps) => {
   const {navigate} = useNavigation();
+
+  const dispatch = useDispatch();
+
+  const cartItems = useSelector(selectCartItems, shallowEqual);
+
+  const {id, thumbnail, price, title} = props;
 
   const handleProductDetailsNav = () => {
     navigate('ProducDetails', {product_id: id});
   };
 
-  const addToCartButton = () => (
-    <TouchableOpacity style={styles.addCartIcon}>
+  const handleAddToCart = (product: ProductProps) => {
+    dispatch(addToCart({cart: cartItems, product}));
+  };
+
+  const addToCartButton = (product: ProductProps) => (
+    <TouchableOpacity
+      style={styles.addCartIcon}
+      onPress={() => handleAddToCart(product)}>
       <Icon name="plus" color={colors.black_1} size={12} />
     </TouchableOpacity>
   );
@@ -40,7 +50,7 @@ const ProductItems: FC<ProductProps> = ({
       <View style={styles.addCartContainer}>
         <View style={styles.priceContainer}>
           <BodyTwo family="semi_bold">${price}</BodyTwo>
-          {addToCartButton()}
+          {addToCartButton(props)}
         </View>
         <Label>{title}</Label>
       </View>

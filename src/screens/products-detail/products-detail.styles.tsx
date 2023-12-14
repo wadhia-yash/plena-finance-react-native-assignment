@@ -2,6 +2,9 @@ import colors from '@/theme/colors';
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: colors.black_1,
+  },
   container: {
     backgroundColor: colors.black_1,
     paddingBottom: 20,
@@ -67,6 +70,18 @@ const styles = StyleSheet.create({
   },
   buttonFlex: {
     flex: 0.47,
+  },
+  discountBadge: {
+    backgroundColor: colors.primary,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    marginLeft: 11,
+  },
+  priceContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

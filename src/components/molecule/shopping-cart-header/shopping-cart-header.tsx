@@ -10,9 +10,13 @@ import colors from '@/theme/colors';
 import styles from './shopping-cart-header.styles';
 import {IconButton} from '@/components/atom/button/button';
 import {useNavigation} from '@react-navigation/native';
+import {shallowEqual, useSelector} from 'react-redux';
+import {selectCartCount} from '@/store/cart/cart.selector';
 
 const ShoppingHeader: FC<BottomTabHeaderProps> = () => {
   const {navigate, canGoBack, goBack} = useNavigation();
+
+  const cartCount = useSelector(selectCartCount, shallowEqual);
 
   const handleCartNavigation = () => {
     navigate('ShoppingCart');
@@ -36,7 +40,7 @@ const ShoppingHeader: FC<BottomTabHeaderProps> = () => {
         activeOpacity={0.7}
         onPress={handleCartNavigation}>
         <BodyOne family="regular" color={colors.black_100}>
-          Shopping Cart (5)
+          Shopping Cart ({cartCount})
         </BodyOne>
       </TouchableOpacity>
     </View>

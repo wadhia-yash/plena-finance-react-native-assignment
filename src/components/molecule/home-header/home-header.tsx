@@ -23,7 +23,7 @@ const HomeHeader: FC<BottomTabHeaderProps> = () => {
   return (
     <View style={styles.container}>
       <HeadingThree family="semi_bold" color={colors.black_1}>
-        Hey, Rahul
+        Hey, Yash
       </HeadingThree>
       <TouchableOpacity
         style={styles.cartView}

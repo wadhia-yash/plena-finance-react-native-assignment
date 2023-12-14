@@ -12,6 +12,7 @@ import CategoriesScreen from '@/screens/categories/categories';
 import FavouritesScreen from '@/screens/favourites/favourites';
 import TabButton from '@/components/molecule/tab-button/tab-button';
 import HomeHeader from '@/components/molecule/home-header/home-header';
+import FavouriteHeader from '@/components/molecule/favourite-header/favourite-header';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,6 +50,10 @@ const BottomTabStackNavigator = () => {
         name="Favourite"
         component={FavouritesScreen}
         options={{
+          headerShown: true,
+          header: (props: BottomTabHeaderProps) => (
+            <FavouriteHeader {...props} />
+          ),
           tabBarShowLabel: false,
           tabBarButton: (props: BottomTabBarButtonProps) => (
             <TabButton label="Favourite" size={24} {...props} />

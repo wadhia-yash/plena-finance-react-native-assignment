@@ -4,14 +4,14 @@ import {BottomTabHeaderProps} from '@react-navigation/bottom-tabs';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-import {BodyOne, HeadingThree} from '@/components/atom/text/text';
+import {BodyOne, HeadingThree, HeadingTwo} from '@/components/atom/text/text';
 import colors from '@/theme/colors';
 
-import styles from './product-details-header.styles';
+import styles from './shopping-cart-header.styles';
 import {IconButton} from '@/components/atom/button/button';
 import {useNavigation} from '@react-navigation/native';
 
-const ProductHeader: FC<BottomTabHeaderProps> = () => {
+const ShoppingHeader: FC<BottomTabHeaderProps> = () => {
   const {navigate, canGoBack, goBack} = useNavigation();
 
   const handleCartNavigation = () => {
@@ -35,15 +35,12 @@ const ProductHeader: FC<BottomTabHeaderProps> = () => {
         style={styles.cartView}
         activeOpacity={0.7}
         onPress={handleCartNavigation}>
-        <SimpleLineIcons name="handbag" size={24} color={colors.black_100} />
-        <View style={styles.badgeView}>
-          <BodyOne family="medium" color={colors.white}>
-            3
-          </BodyOne>
-        </View>
+        <BodyOne family="regular" color={colors.black_100}>
+          Shopping Cart (5)
+        </BodyOne>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default ProductHeader;
+export default ShoppingHeader;

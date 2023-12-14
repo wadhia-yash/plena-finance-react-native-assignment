@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
   checkoutInnerContainer: {
     backgroundColor: colors.black_10,
     flex: 1,
-    borderRadius: 30,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
     paddingHorizontal: 40,
     paddingTop: 16,
     position: 'relative',

@@ -1,24 +1,26 @@
-import React from 'react';
-import {View, Text, FlatList, Dimensions} from 'react-native';
+import React, {useEffect} from 'react';
+import {FlatList} from 'react-native';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import ProductItems from '@/components/atom/products/products';
-import colors from '@/theme/colors';
-import products from '@/theme/products.json';
-
-import styles from './product-list.styles';
-
-const data = [
-  {id: '1', title: 'Item 1', color: colors.black_20},
-  {id: '2', title: 'Item 2', color: colors.black_20},
-  {id: '3', title: 'Item 3', color: colors.black_20},
-  {id: '4', title: 'Item 4', color: colors.black_20},
-  // Add more items as needed
-];
+import {fetchAllProducts} from '@/store/products/products.api';
+import {RootState} from '@/store/store';
 
 const ProductGridList = () => {
+  const dispatch = useDispatch();
+
+  const {products} = useSelector(
+    (state: RootState) => state.product,
+    shallowEqual,
+  );
+
+  useEffect(() => {
+    dispatch(fetchAllProducts() as any);
+  }, [dispatch]);
+
   return (
     <FlatList
-      data={products.products}
+      data={products}
       numColumns={2}
       keyExtractor={item => item.id}
       showsVerticalScrollIndicator={false}

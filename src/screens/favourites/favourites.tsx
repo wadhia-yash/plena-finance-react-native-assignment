@@ -60,14 +60,12 @@ const FavouritesScreen: FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.listContainer}>
-        <FlatList
-          data={favouriteItems}
-          renderItem={renderProduct}
-          keyExtractor={item => item?.id?.toString()}
-          ItemSeparatorComponent={renderSeparator}
-        />
-      </View>
+      <FlatList
+        data={favouriteItems}
+        renderItem={renderProduct}
+        keyExtractor={item => item?.id?.toString()}
+        ItemSeparatorComponent={renderSeparator}
+      />
     </View>
   );
 };

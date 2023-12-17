@@ -5,9 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.black_1,
-  },
-  listContainer: {
-    flex: 0.7,
+    paddingBottom: 90,
   },
   checkoutContainer: {
     flex: 0.3,
